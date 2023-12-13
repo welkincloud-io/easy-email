@@ -102,7 +102,7 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com/@welkincloud-io'
+          registry-url: 'https://npm.pkg.github.com/'
           scope: '@welkincloud-io'
 
       - name: Install dependencies
