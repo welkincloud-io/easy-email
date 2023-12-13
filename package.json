@@ -2,7 +2,7 @@
   "name": "easy-email",
   "repository": "https://github.com/welkincloud-io/easy-email.git",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@welkincloud-io"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "install-all": "lerna exec -- yarn --force && cd demo && yarn --force",

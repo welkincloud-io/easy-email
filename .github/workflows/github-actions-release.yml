@@ -110,7 +110,8 @@ jobs:
 
       - name: Publish package
         run: |
-          npm version ${{ needs.semantic-version.outputs.new_release_version }}
+          npm version $RELEASE_VERSION
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ needs.semantic-version.outputs.new_release_version }}
