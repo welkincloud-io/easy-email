@@ -7,92 +7,14 @@ on:
 
 
 jobs:
-  semantic-version:
-    runs-on: ubuntu-latest
-    outputs:
-      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
-      new_release_version: ${{ steps.semantic.outputs.steps.semantic.outputs.new_release_version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Configure semantic release
-        uses: devops-actions/json-to-file@v1.0.3
-        with:
-          json: |
-            {
-              "branches": [
-                "master"
-              ],
-              "plugins": [
-                [
-                  "@semantic-release/commit-analyzer",
-                  {
-                    "preset": "angular",
-                    "releaseRules": [
-                      {"type": "docs", "release": "minor"},
-                      {"type": "refactor", "release": "minor"},
-                      {"type": "fix", "release": "patch"},
-                      {"type": "style", "release": "minor"},
-                      {"type": "feature", "release": "minor"},
-                      {"type": "feat", "release": "minor"},
-                      {"type": "chore", "release": "minor"},
-                      {"type": "build", "release": "minor"},
-                      {"type": "ci", "release": "minor"},
-                      {"type": "test", "release": "minor"},
-                      {"type": "perf", "release": "minor"}
-                    ],
-                    "parserOpts": {
-                      "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
-                    }
-                  }
-                ],
-                [
-                  "@semantic-release/release-notes-generator",
-                  {
-                    "preset": "conventionalcommits",
-                    "parserOpts": {
-                      "issuePrefixes": "[A-Z]+\\-",
-                      "issuePrefixesCaseSensitive": true
-                    },
-                    "presetConfig": {
-                      "commitUrlFormat": "{{host}}/{{owner}}/{{repository}}/commits/{{hash}}",
-                      "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{currentTag}}%0D{{previousTag}}#diff",
-                      "issueUrlFormat": "https://welkinhealth.atlassian.net/browse/{{prefix}}{{id}}"
-                    }
-                  }
-                ],
-                [
-                  "@semantic-release/github",
-                  {
-                    "successComment": false,
-                    "failComment": false
-                  }
-                ]
-              ]
-            }
-          filename: ".releaserc.json"
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        id: semantic
-        with:
-          extra_plugins: |
-            @semantic-release/git
-            @semantic-release/github
-            @semantic-release/release-notes-generator
-            @commitlint/config-conventional
-            @commitlint/cli
-        env:
-          DEBUG: 'semantic-release:*'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   publish:
-    needs: [semantic-version]
-    if: needs.semantic-version.outputs.new_release_published == 'true'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - easy-email-core
+          - easy-email-editor
+          - easy-email-extensions
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -106,12 +28,21 @@ jobs:
           scope: '@welkincloud-io'
 
       - name: Install dependencies
+        working-directory: packages/${{ matrix.package }}
         run: npm install
 
-      - name: Publish package
+      - name: Check if version has changed
+        id: version-check
+        working-directory: packages/${{ matrix.package }}
         run: |
-          npm version $RELEASE_VERSION
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version)
+          echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
+
+      - name: Publish package
+        if: steps.version-check.outputs.changed == 'true'
+        working-directory: packages/${{ matrix.package }}
+        run: |
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ needs.semantic-version.outputs.new_release_version }}

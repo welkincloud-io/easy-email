@@ -4,9 +4,9 @@
   "description": "Email editor",
   "version": "4.12.2",
   "author": "m-Ryan",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:m-Ryan/easy-email.git"
+  "repository": "https://github.com/welkincloud-io/easy-email.git",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "email editor core"
