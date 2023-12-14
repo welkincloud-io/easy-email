@@ -39,7 +39,7 @@ jobs:
         working-directory: packages/${{ matrix.package }}
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
-          PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version)
+          PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version --registry=https://npm.pkg.github.com/welkincloud-io)
           echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
 
       - name: Publish package
