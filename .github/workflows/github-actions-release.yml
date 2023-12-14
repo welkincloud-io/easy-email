@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: packages/${{ matrix.package }}
-        run: npm install
+        run: yarn install
 
       - name: Check if version has changed
         id: version-check
