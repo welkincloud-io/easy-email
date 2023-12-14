@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com/'
+          registry-url: 'https://npm.pkg.github.com/welkincloud-io/easy-email'
           scope: '@welkincloud-io'
 
       - name: Install dependencies
@@ -38,7 +38,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: ${CURRENT_VERSION}"
           PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version --registry=https://npm.pkg.github.com/welkincloud-io)
+          echo "Published version: ${PUBLISHED_VERSION}"
           echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
 
       - name: Publish package
