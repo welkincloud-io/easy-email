@@ -39,7 +39,7 @@ jobs:
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: ${CURRENT_VERSION}"
-          PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version --registry=https://npm.pkg.github.com/welkincloud-io)
+          PUBLISHED_VERSION=$(npm show "@welkincloud-io/$(basename "$PWD")" version)
           echo "Published version: ${PUBLISHED_VERSION}"
           echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
 
