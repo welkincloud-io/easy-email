@@ -31,6 +31,9 @@ jobs:
         working-directory: packages/${{ matrix.package }}
         run: npm install
 
+      - name: Authenticate with Github npm registry
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
       - name: Check if version has changed
         id: version-check
         working-directory: packages/${{ matrix.package }}
