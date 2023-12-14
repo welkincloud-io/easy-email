@@ -31,7 +31,20 @@ jobs:
         working-directory: packages/${{ matrix.package }}
         run: yarn install
 
+      - name: Check if version has changed
+        id: version-check
+        working-directory: packages/${{ matrix.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: ${CURRENT_VERSION}"
+          PUBLISHED_VERSION=$(npm show "$(basename "$PWD")" version --registry=https://npm.pkg.github.com/welkincloud-io)
+          echo "Published version: ${PUBLISHED_VERSION}"
+          echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
+
       - name: Publish package
+        if: steps.version-check.outputs.changed == 'true'
         working-directory: packages/${{ matrix.package }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
