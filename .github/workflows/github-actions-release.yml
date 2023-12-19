@@ -39,9 +39,17 @@ jobs:
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: ${CURRENT_VERSION}"
-          PUBLISHED_VERSION=$(npm show "@welkincloud-io/$(basename "$PWD")" version)
-          echo "Published version: ${PUBLISHED_VERSION}"
-          echo "changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)" >> $GITHUB_OUTPUT
+          PUBLISHED_VERSION=$(npm show --json "@welkincloud-io/$(basename "$PWD")" version || echo "")
+
+          if [ -z "$PUBLISHED_VERSION" ]; then
+            echo "Package doesn't exist in the registry yet."
+            changed=false
+          else
+            echo "Published version: ${PUBLISHED_VERSION}"
+            changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)
+          fi
+
+          echo "changed=${changed}" >> $GITHUB_OUTPUT
 
       - name: Publish package
         if: steps.version-check.outputs.changed == 'true'
