@@ -24,16 +24,10 @@ jobs:
       - name: Resolve dependencies
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
-
-      - name: Resolve dependencies
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install-all
+        run: |
+          yarn policies set-version 1.19.2
+          yarn install --network-concurrency 1 --network-timeout 60000
+          yarn install-all --network-concurrency 1 --network-timeout 60000
 
       - name: Publish packages
         env:
