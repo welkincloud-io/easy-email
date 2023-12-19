@@ -26,10 +26,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
-      - name: Install dependencies
-        working-directory: packages/${{ matrix.package }}
-        run: yarn install
-
       - name: Check if version has changed
         id: version-check
         working-directory: packages/${{ matrix.package }}
@@ -56,5 +52,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          yarn install
           npm run build
           npm publish
