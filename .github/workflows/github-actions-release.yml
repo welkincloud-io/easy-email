@@ -21,6 +21,9 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
+      - name: Debug info
+        run: yarn --version
+
       - name: Resolve dependencies
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
