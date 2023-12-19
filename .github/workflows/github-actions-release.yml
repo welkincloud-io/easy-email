@@ -25,8 +25,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn install --cache-folder ./.yarncache
-          yarn install-all --cache-folder ./.yarncache
+          yarn install --network-concurrency 1
+          yarn install-all --network-concurrency 1
 
       - name: Publish packages
         env:
