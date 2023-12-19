@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
+          cache: 'npm'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
@@ -24,8 +25,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn install
-          yarn install-all
+          yarn install --network-concurrency 1
+          yarn install-all --network-concurrency 1
 
       - name: Publish packages
         env:
