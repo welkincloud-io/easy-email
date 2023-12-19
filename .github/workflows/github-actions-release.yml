@@ -21,10 +21,15 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
+      - name: Resolve dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn run install-all
+
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna run install-all
           lerna run build
           lerna publish from-package --yes
