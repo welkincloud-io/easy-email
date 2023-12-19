@@ -30,6 +30,9 @@ jobs:
         run: yarn install
         run: yarn install-all
 
+      - name: Build
+        run: yarn build
+
       # - name: Check if version has changed
       #   id: version-check
       #   working-directory: packages/${{ matrix.package }}
