@@ -25,8 +25,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm install -g rimraf
-          lerna run install-all
+          yarn
 
       - name: Publish packages
         env:
