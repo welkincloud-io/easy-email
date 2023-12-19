@@ -43,7 +43,7 @@ jobs:
 
           if [ -z "$PUBLISHED_VERSION" ]; then
             echo "Package doesn't exist in the registry yet."
-            changed=false
+            changed=true
           else
             echo "Published version: ${PUBLISHED_VERSION}"
             changed=$(test "$CURRENT_VERSION" != "$PUBLISHED_VERSION" && echo true || echo false)
