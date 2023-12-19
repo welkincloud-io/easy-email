@@ -39,7 +39,7 @@ jobs:
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: ${CURRENT_VERSION}"
-          PUBLISHED_VERSION=$(npm show --json "@welkincloud-io/$(basename "$PWD")" version 2>/dev/null | jq -r '.version' || echo "")
+          PUBLISHED_VERSION=$(npm show "@welkincloud-io/$(basename "$PWD")" version 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
 
           if [ -z "$PUBLISHED_VERSION" ]; then
             echo "Package doesn't exist in the registry yet."
