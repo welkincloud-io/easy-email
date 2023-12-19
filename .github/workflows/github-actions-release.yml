@@ -21,6 +21,12 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
+      - name: Resolve dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install -g rimraf
+
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
