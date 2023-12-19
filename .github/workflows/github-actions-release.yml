@@ -5,7 +5,6 @@ on:
     branches:
       - master
 
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -28,8 +27,7 @@ jobs:
           scope: '@welkincloud-io'
 
       - name: Install dependencies
-        working-directory: packages/${{ matrix.package }}
-        run: yarn install
+        run: yarn install-all
 
       - name: Check if version has changed
         id: version-check
