@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@welkincloud-io'
+          #registry-url: 'https://npm.pkg.github.com'
+          #scope: '@welkincloud-io'
 
       - name: Install dependencies
         working-directory: packages/${{ matrix.package }}
