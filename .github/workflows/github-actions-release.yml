@@ -27,6 +27,7 @@ jobs:
           scope: '@welkincloud-io'
 
       - name: Install dependencies
+        run: yarn install
         run: yarn install-all
 
       # - name: Check if version has changed
