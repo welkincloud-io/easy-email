@@ -21,15 +21,19 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
-      - name: Debug info
-        run: yarn --version
+      - name: Resolve dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
 
       - name: Resolve dependencies
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          yarn install --network-concurrency 1 --network-timeout 60000
-          yarn install-all --network-concurrency 1 --network-timeout 60000
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install-all
 
       - name: Publish packages
         env:
