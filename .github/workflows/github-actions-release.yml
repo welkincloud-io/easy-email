@@ -18,7 +18,11 @@ jobs:
         with:
           node-version: 18.x
           cache: 'yarn'
-          cache-dependency-path: '**/yarn.lock'
+          cache-dependency-path: |
+            packages/easy-email-core/yarn.lock
+            packages/easy-email-editor/yarn.lock
+            packages/easy-email-extensions/yarn.lock
+            packages/easy-email-localization/yarn.lock
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
 
