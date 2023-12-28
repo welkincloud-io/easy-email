@@ -25,7 +25,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn install
+          yarn versel-install
           yarn build
 
       - name: Publish packages
