@@ -17,15 +17,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: 'yarn'
-          cache-dependency-path: |
-            packages/easy-email-core/yarn.lock
-            packages/easy-email-editor/yarn.lock
-            packages/easy-email-extensions/yarn.lock
-            packages/easy-email-localization/yarn.lock
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
-          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Setup npm"
+        run: |
+          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
 
       - name: Resolve dependencies
         run: |
