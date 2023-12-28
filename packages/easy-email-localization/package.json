@@ -1,5 +1,9 @@
 {
   "name": "@welkincloud-io/easy-email-localization",
+  "repository": "https://github.com/welkincloud-io/easy-email.git",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "license": "MIT",
   "description": "Email editor",
   "version": "4.14.0",
