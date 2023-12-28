@@ -25,17 +25,14 @@ jobs:
             packages/easy-email-localization/yarn.lock
           registry-url: 'https://npm.pkg.github.com'
           scope: '@welkincloud-io'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Resolve dependencies
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           #yarn cache clean
           yarn vercel-install
           yarn build
 
       - name: Publish packages
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           lerna publish from-package --yes
