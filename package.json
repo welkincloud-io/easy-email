@@ -1,5 +1,5 @@
 {
-  "name": "@welkincloud-io/easy-email",
+  "name": "easy-email",
   "repository": "https://github.com/welkincloud-io/easy-email.git",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
