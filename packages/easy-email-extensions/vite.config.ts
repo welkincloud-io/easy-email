@@ -27,7 +27,7 @@ export default defineConfig({
     target: 'es2015',
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
-      name: 'easy-email-extension',
+      name: '@welkincloud-io/easy-email-extension',
       formats: ['es'],
       fileName: () => 'index.js',
     },
